@@ -1,0 +1,18 @@
+{
+	"folders":
+	[
+		{
+			"path": "appdebug"
+		},
+		{
+			"path": "appredir"
+		},
+		{
+			"path": "appstart"
+		}
+	],
+	"settings":
+	{
+		"tab_size": 4
+	}
+}
