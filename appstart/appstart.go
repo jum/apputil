@@ -72,7 +72,7 @@ func parseAcceptLang(w http.ResponseWriter, r *http.Request) acceptLangArray {
 
 func start(w http.ResponseWriter, r *http.Request) {
 	lang := r.FormValue("lang")
-	//version := r.FormValue("vers")
+	version := r.FormValue("vers")
 	root := r.FormValue("root")
 	suffix := ""
 	if len(lang) != 0 {
@@ -109,5 +109,12 @@ func start(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 	}
-	http.Redirect(w, r, root + "/index"+suffix+".html", http.StatusFound)
+	query := ""
+	if version != "" {
+		if query == "" {
+			query = "?"
+		}
+		query += "vers=" + version
+	}
+	http.Redirect(w, r, root + "/index"+suffix+".html" + query, http.StatusFound)
 }
