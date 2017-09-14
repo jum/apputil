@@ -25,7 +25,9 @@ import (
 )
 
 // The available languages, en is default and should not be in the list
-var AvailLang = []string{}
+var AvailLang = map[string][]string{
+	"": []string{},
+}
 
 func init() {
 	http.HandleFunc("/start", start)
@@ -76,7 +78,7 @@ func start(w http.ResponseWriter, r *http.Request) {
 	root := r.FormValue("root")
 	suffix := ""
 	if len(lang) != 0 {
-		for _, l := range AvailLang {
+		for _, l := range AvailLang[root] {
 			if l == lang {
 				suffix = "." + l
 				break
@@ -88,7 +90,7 @@ func start(w http.ResponseWriter, r *http.Request) {
 		al := parseAcceptLang(w, r)
 	outer:
 		for _, a := range al {
-			for _, l := range AvailLang {
+			for _, l := range AvailLang[root] {
 				if l == a.lang {
 					suffix = "." + l
 					break outer
@@ -100,7 +102,7 @@ func start(w http.ResponseWriter, r *http.Request) {
 			// language alone.
 		outer1:
 			for _, a := range al {
-				for _, l := range AvailLang {
+				for _, l := range AvailLang[root] {
 					if l == a.langPrefix {
 						suffix = "." + l
 						break outer1
@@ -116,5 +118,5 @@ func start(w http.ResponseWriter, r *http.Request) {
 		}
 		query += "vers=" + version
 	}
-	http.Redirect(w, r, root + "/index"+suffix+".html" + query, http.StatusFound)
+	http.Redirect(w, r, root+"/index"+suffix+".html"+query, http.StatusFound)
 }
