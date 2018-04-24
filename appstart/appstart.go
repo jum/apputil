@@ -76,6 +76,7 @@ func start(w http.ResponseWriter, r *http.Request) {
 	lang := r.FormValue("lang")
 	version := r.FormValue("vers")
 	root := r.FormValue("root")
+	file := r.FormValue("file")
 	suffix := ""
 	if len(lang) != 0 {
 		for _, l := range AvailLang[root] {
@@ -118,5 +119,9 @@ func start(w http.ResponseWriter, r *http.Request) {
 		}
 		query += "vers=" + version
 	}
-	http.Redirect(w, r, root+"/index"+suffix+".html"+query, http.StatusFound)
+	if len(file) != 0 {
+		http.Redirect(w, r, file+suffix+".html"+query, http.StatusFound)
+	} else {
+		http.Redirect(w, r, root+"/index"+suffix+".html"+query, http.StatusFound)
+	}
 }
