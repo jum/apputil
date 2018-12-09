@@ -26,7 +26,7 @@ type RedirEntry struct {
 }
 
 func (re *RedirEntry) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	http.Redirect(w, r, re.Dest, http.StatusFound)
+	http.Redirect(w, r, re.Dest, http.StatusMovedPermanently)
 }
 
 func RegisterRedirect(re *RedirEntry) {
