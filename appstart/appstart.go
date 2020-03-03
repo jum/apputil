@@ -18,6 +18,7 @@
 package appstart
 
 import (
+	"log"
 	"net/http"
 	"sort"
 	"strconv"
@@ -73,6 +74,10 @@ func parseAcceptLang(w http.ResponseWriter, r *http.Request) acceptLangArray {
 }
 
 func start(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+	if err != nil {
+		log.Printf("ParseForm: %v", err)
+	}
 	lang := r.FormValue("lang")
 	version := r.FormValue("vers")
 	root := r.FormValue("root")
