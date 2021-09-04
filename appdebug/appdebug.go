@@ -16,29 +16,15 @@
 package appdebug
 
 import (
-	"log"
-	"os"
-	"sync"
-
 	"golang.org/x/net/context"
 
-	aplog "google.golang.org/appengine/log"
+	aplog "google.golang.org/appengine/v2/log"
 )
 
 type DebugVar bool
 
-var isgo111 = false
-var isgo111Check sync.Once
-
 func (d DebugVar) Debugf(c context.Context, format string, a ...interface{}) {
 	if d {
-		isgo111Check.Do(func() {
-			isgo111 = os.Getenv("GAE_RUNTIME") == "go111"
-		})
-		if isgo111 {
-			aplog.Debugf(c, format, a...)
-		} else {
-			log.Printf(format, a...)
-		}
+		aplog.Debugf(c, format, a...)
 	}
 }
