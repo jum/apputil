@@ -5,16 +5,16 @@
 //  Copyright Best Search Infobrokerage, Inc 2015. All rights reserved.
 //
 
-//Process any incoming requests looking like:
+// Process any incoming requests looking like:
 //
 //	http://server/start?lang=xx&vers=1.1
 //
-//and redirect to the apropriate index.html for that version and
-//language. Use via an import for side effect:
+// and redirect to the apropriate index.html for that version and
+// language. Use via an import for side effect:
 //
 //	import _ "github.com/jum/apputil/appstart"
 //
-//Parsing the version and acting upon it is not yet implemented.
+// Parsing the version and acting upon it is not yet implemented.
 package appstart
 
 import (
@@ -27,11 +27,15 @@ import (
 
 // The available languages, en is default and should not be in the list
 var AvailLang = map[string][]string{
-	"": []string{},
+	"": {},
 }
 
 func init() {
-	http.HandleFunc("/start", start)
+	RegisterStart(http.DefaultServeMux)
+}
+
+func RegisterStart(mux *http.ServeMux) {
+	mux.HandleFunc("/start", start)
 }
 
 type acceptLang struct {

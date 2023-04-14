@@ -30,11 +30,19 @@ func (re *RedirEntry) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func RegisterRedirect(re *RedirEntry) {
-	http.Handle(re.Path, re)
+	RegisterRedirectMux(http.DefaultServeMux, re)
+}
+
+func RegisterRedirectMux(mux *http.ServeMux, re *RedirEntry) {
+	mux.Handle(re.Path, re)
 }
 
 func RegisterRedirects(re []RedirEntry) {
+	RegisterRedirectsMux(http.DefaultServeMux, re)
+}
+
+func RegisterRedirectsMux(mux *http.ServeMux, re []RedirEntry) {
 	for i := range re {
-		RegisterRedirect(&re[i])
+		RegisterRedirectMux(mux, &re[i])
 	}
 }
